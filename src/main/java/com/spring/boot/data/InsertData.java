@@ -38,6 +38,7 @@ public class InsertData {
         if ( match.isPresent()){
             x = match.get();
         }
+        //desconectado
        // stadium.getMatchList().add(x);
         return stadium;
     }

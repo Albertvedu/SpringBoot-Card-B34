@@ -24,15 +24,16 @@ public class Stadium {
     private double annual_income;
 
 //    @JsonIgnore
-//    //@OneToMany(mappedBy="stadiumMany" )
+//    @OneToMany(mappedBy="stadiumMany" )
 //    private List<Match> matchList;
 
-    public Stadium(Long stadiumId, String name, String city, int capacity, double annual_income, List<Match> matchList) {
+    public Stadium(Long stadiumId, String name, String city, int capacity, double annual_income ) {
         this.stadiumId = stadiumId;
         this.name = name;
         this.city = city;
         this.capacity = capacity;
         this.annual_income = annual_income;
+        // this.matchList = matchList;
        // this.matchList = matchList;
     }
 
