@@ -114,11 +114,8 @@ public class StadiumController {
             //   map = verifyDataStadium.verifyIds(s, map);
 
             if ( map.size() == 0) {
-//                System.out.println("maravilloso............111.....................");
 //                Stadium stadium = iStadiumService.findByStadiumId(Long.parseLong(s.getId()));
-//                System.out.println("maravilloso.................2222................"+ s.getId2());
 //                Optional<Match> match = matchServiceImpl.findById(Long.parseLong(s.getId2()));
-//                System.out.println("maravilloso................3333.................");
 //                stadium = new InsertData().addMatch(stadium, match);
 //                iStadiumService.save(stadium);
 //                map.put("success", true);
