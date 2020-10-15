@@ -1,10 +1,9 @@
 package com.spring.boot.controller;
 
-import com.spring.boot.data.InsertData;
-import com.spring.boot.data.VerifyDataStadium;
 import com.spring.boot.model.Stadium;
 import com.spring.boot.model.json.StadiumJson;
-import com.spring.boot.service.IStadiumService;
+import com.spring.boot.repository.IStadiumRepository;
+import com.spring.boot.service.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -17,18 +16,19 @@ import java.util.List;
 @RequestMapping("/api/stadiums")
 public class StadiumController {
 
-    @Qualifier("IStadiumService")
+    @Qualifier("IStadiumRepository")
     @Autowired
-    IStadiumService iStadiumService;
-    //@Autowired
-    //MatchServiceImpl matchServiceImpl;
+    IStadiumRepository iStadiumRepository;
+//    @Autowired
+//    MatchServiceImpl matchServiceImpl;
+    @Autowired
+    StadiumService stadiumService;
     HashMap<String,Object> map = new HashMap<>();
-    VerifyDataStadium verifyDataStadium = new VerifyDataStadium();
 
     @GetMapping
     HashMap<String,Object> getAllStadium(){
         map.clear();
-        List<Stadium> stadiumList = iStadiumService.findAll();
+        List<Stadium> stadiumList = iStadiumRepository.findAll();
 
         if (stadiumList.size() > 0 ) {
             map.put("success", true);
@@ -43,11 +43,11 @@ public class StadiumController {
     @GetMapping("/{id}")
     HashMap<String,Object> getStadium(@PathVariable String id){
         map.clear();
-        map = verifyDataStadium.verifyIds(id, map);
+        map = stadiumService.verifyIds(id, map);
 
         if ( map.size() == 0) {
 
-            Stadium stadium= iStadiumService.findByStadiumId( Long.parseLong( id ));
+            Stadium stadium= iStadiumRepository.findByStadiumId( Long.parseLong( id ));
 
             if (stadium != null) {
                 map.put("success", true);
@@ -65,15 +65,15 @@ public class StadiumController {
     HashMap<String,Object> postStadium(@RequestBody StadiumJson stadium){
         try {
             map.clear();
-            map = verifyDataStadium.verifyStrings(stadium, iStadiumService, map);
-            map = verifyDataStadium.verifyNumericPost(stadium, map);
+            map = stadiumService.verifyStrings(stadium, iStadiumRepository, map);
+            map = stadiumService.verifyNumericPost(stadium, map);
 
             if ( map.size() == 0) {
-                Stadium s = new InsertData().insertStadium(stadium);
+                Stadium s = stadiumService.insertStadium(stadium);
                 map.put("success", true);
                 map.put("stadium ", s);
                 map.put("message", " create stadium");
-                iStadiumService.save(s);
+                iStadiumRepository.save(s);
             }
         }
         catch (Exception e) {
@@ -82,19 +82,19 @@ public class StadiumController {
         }
         return map;
     }
-    @PutMapping()
+    @PutMapping
     public HashMap<String,Object> updateStadium(@RequestBody StadiumJson stadium){
         map.clear();
 
         try{
-            map = verifyDataStadium.verifyNumericPut(stadium, map);
+            map = stadiumService.verifyNumericPut(stadium, map);
 
-            if (map.size() == 0 ) map = verifyDataStadium.verifyStrings(stadium, iStadiumService, map);
+            if (map.size() == 0 ) map = stadiumService.verifyStrings(stadium, iStadiumRepository, map);
             else return map;
-            Stadium s = new InsertData().putStadium(stadium);
+            Stadium s = stadiumService.putStadium(stadium);
 
             if ( map.size() == 0) {
-                iStadiumService.save(s);
+                iStadiumRepository.save(s);
                 map.put("success", true);
                 map.put("stadium update", s);
                 map.put("message", HttpStatus.OK);
@@ -114,6 +114,7 @@ public class StadiumController {
             //   map = verifyDataStadium.verifyIds(s, map);
 
             if ( map.size() == 0) {
+
 //                Stadium stadium = iStadiumService.findByStadiumId(Long.parseLong(s.getId()));
 //                Optional<Match> match = matchServiceImpl.findById(Long.parseLong(s.getId2()));
 //                stadium = new InsertData().addMatch(stadium, match);
@@ -132,11 +133,11 @@ public class StadiumController {
     @DeleteMapping
     public HashMap<String,Object> deleteStadium(@RequestBody StadiumJson id){
         map.clear();
-        map = verifyDataStadium.verifyIds(id.getId(), map);
+        map = stadiumService.verifyIds(id.getId(), map);
 
         if ( map.size() == 0) {
             try {
-                iStadiumService.deleteById(Long.parseLong( id.getId() ));
+                iStadiumRepository.deleteById(Long.parseLong( id.getId() ));
                 map.put("success", true);
                 map.put("message", HttpStatus.OK);
             } catch (Exception e) {
