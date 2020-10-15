@@ -27,8 +27,7 @@ public class Stadium {
 //    @OneToMany(mappedBy="stadiumMany" )
 //    private List<Match> matchList;
 
-    public Stadium(Long stadiumId, String name, String city, int capacity, double annual_income ) {
-        this.stadiumId = stadiumId;
+    public Stadium(String name, String city, int capacity, double annual_income ) {
         this.name = name;
         this.city = city;
         this.capacity = capacity;

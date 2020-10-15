@@ -1,4 +1,4 @@
-package com.itacademy.soccer.controller;
+package com.spring.boot.controller;
 
 import com.spring.boot.data.InsertData;
 import com.spring.boot.data.VerifyDataStadium;
@@ -20,7 +20,7 @@ public class StadiumController {
     @Qualifier("IStadiumService")
     @Autowired
     IStadiumService iStadiumService;
-    @Autowired
+    //@Autowired
     //MatchServiceImpl matchServiceImpl;
     HashMap<String,Object> map = new HashMap<>();
     VerifyDataStadium verifyDataStadium = new VerifyDataStadium();
