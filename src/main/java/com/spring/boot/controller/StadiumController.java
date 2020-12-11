@@ -7,8 +7,8 @@ import com.spring.boot.service.StadiumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,21 +25,36 @@ public class StadiumController {
     StadiumService stadiumService;
     HashMap<String,Object> map = new HashMap<>();
 
-    @GetMapping
-    HashMap<String,Object> getAllStadium(){
-        map.clear();
-        List<Stadium> stadiumList = iStadiumRepository.findAll();
+//    @GetMapping
+//    HashMap<String,Object> getAllStadium(){
+//        map.clear();
+//        List<Stadium> stadiumList = iStadiumRepository.findAll();
+//
+//        if (stadiumList.size() > 0 ) {
+//            map.put("success", true);
+//            map.put("Stadiums: ", stadiumList);
+//            map.put("message", "get all stadiums");
+//        }else {
+//            map.put("success", false);
+//            map.put("message", "there are no stadiums in bbdd");
+//        }
+//        return map;
+//    }
+@GetMapping
+List<Stadium> getAllStadium(){
+    map.clear();
+    List<Stadium> stadiumList = iStadiumRepository.findAll();
 
-        if (stadiumList.size() > 0 ) {
-            map.put("success", true);
-            map.put("Stadiums: ", stadiumList);
-            map.put("message", "get all stadiums");
-        }else {
-            map.put("success", false);
-            map.put("message", "there are no stadiums in bbdd");
-        }
-        return map;
+    if (stadiumList.size() > 0 ) {
+        map.put("success", true);
+        map.put("Stadiums: ", stadiumList);
+        map.put("message", "get all stadiums");
+    }else {
+        map.put("success", false);
+        map.put("message", "there are no stadiums in bbdd");
     }
+    return stadiumList;
+}
     @GetMapping("/{id}")
     HashMap<String,Object> getStadium(@PathVariable String id){
         map.clear();
@@ -83,7 +98,7 @@ public class StadiumController {
         return map;
     }
     @PutMapping
-    public HashMap<String,Object> updateStadium(@RequestBody StadiumJson stadium){
+    public HashMap<String,Object> updateStadium( @RequestBody StadiumJson stadium){
         map.clear();
 
         try{
